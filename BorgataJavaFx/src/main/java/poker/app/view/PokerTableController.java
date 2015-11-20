@@ -9,6 +9,7 @@ import org.apache.commons.math3.util.Combinations;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
+import domain.CardDomainModel;
 import enums.eGame;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -230,7 +231,7 @@ public class PokerTableController {
 		// Get the Rule, start the Game
 		 if (mainApp.getiGameType()==0){
 	        	
-	        	mainApp.setiGameType(1);
+	        	mainApp.setiGameType(4);
 	        }
 		Rule rle = new Rule(eGame.fromInt(mainApp.getiGameType()));
 		gme = new GamePlay(rle);
@@ -410,6 +411,79 @@ public class PokerTableController {
 
 				ImageView imgwin = new ImageView(new Image(getClass().getResourceAsStream(strCard), 90, 100, true, true));
 				WinningImageBox.getChildren().add(imgwin);
+				/*TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), HboxCommunityCards.getChildren().get(0));
+				translateTransition.setFromY(0);
+				translateTransition.setToY(-10);
+				translateTransition.play();*/
+				
+			for (int c=0;c<5;c++){
+				CardDomainModel d=WinningHand.getCards().get(c);
+				for(int v=0;v<5;v++){
+					GamePlayPlayerHand GPCH = gme.FindCommonHand(gme);
+					CardDomainModel f=GPCH.getHand().getCards().get(v);
+					if (f.getSuit()==d.getSuit()&&f.getRank()==d.getRank()){
+						TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), HboxCommunityCards.getChildren().get(v));
+						translateTransition.setFromY(0);
+						translateTransition.setToY(-10);
+						translateTransition.play();
+					}
+					
+				}
+			}
+			for(int c=0;c<5;c++){
+				CardDomainModel d=WinningHand.getCards().get(c);
+				switch (WinningPlayer.getiPlayerPosition()){
+				case 1:
+					GamePlayPlayerHand GPPH = gme.FindPlayerGame(gme, WinningPlayer);
+					for(int v=0;v<GPPH.getHand().getCards().size() ;v++){
+						CardDomainModel f=GPPH.getHand().getCards().get(v);
+						if (f.getSuit()==d.getSuit()&&f.getRank()==d.getRank()){
+							TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), hBoxP1Cards.getChildren().get(v));
+							translateTransition.setFromY(0);
+							translateTransition.setToY(-10);
+							translateTransition.play();
+						}
+					}
+					break;
+				case 2:
+					GamePlayPlayerHand GPPH1 = gme.FindPlayerGame(gme, WinningPlayer);
+					for(int v=0;v<GPPH1.getHand().getCards().size() ;v++){
+						CardDomainModel f=GPPH1.getHand().getCards().get(v);
+						if (f.getSuit()==d.getSuit()&&f.getRank()==d.getRank()){
+							TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), hBoxP2Cards.getChildren().get(v));
+							translateTransition.setFromY(0);
+							translateTransition.setToY(-10);
+							translateTransition.play();
+						}
+					}
+					break;
+				case 3:
+					GamePlayPlayerHand GPPH2 = gme.FindPlayerGame(gme, WinningPlayer);
+					for(int v=0;v<GPPH2.getHand().getCards().size() ;v++){
+						CardDomainModel f=GPPH2.getHand().getCards().get(v);
+						if (f.getSuit()==d.getSuit()&&f.getRank()==d.getRank()){
+							TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), hBoxP3Cards.getChildren().get(v));
+							translateTransition.setFromY(0);
+							translateTransition.setToY(-10);
+							translateTransition.play();
+						}
+					}
+					break;
+				case 4:
+					GamePlayPlayerHand GPPH3 = gme.FindPlayerGame(gme, WinningPlayer);
+					for(int v=0;v<GPPH3.getHand().getCards().size() ;v++){
+						CardDomainModel f=GPPH3.getHand().getCards().get(v);
+						if (f.getSuit()==d.getSuit()&&f.getRank()==d.getRank()){
+							TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), hBoxP4Cards.getChildren().get(v));
+							translateTransition.setFromY(0);
+							translateTransition.setToY(-10);
+							translateTransition.play();
+						}
+					}
+					break;
+				}
+				
+			}
 		}
 		else
 		{
